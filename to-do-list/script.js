@@ -1,49 +1,35 @@
-const taskInput = document.getElementById("taskInput");
-const taskList = document.getElementById("taskList");
+document.addEventListener("DOMContentLoaded", function () {
+    let taskInput = document.getElementById("taskInput");
+    let addTaskButton = document.getElementById("addTask");
+    let taskList = document.getElementById("taskList");
 
-function addTask() {
-    let taskText = taskInput.value.trim();
-    if (taskText === "") {
-        alert("What Will You Do?");
+    function addTask() {
+        let taskText = taskInput.value.trim();
+        if (taskText === "") 
         return;
-    }
-    const li = document.createElement("li");
-    li.textContent = taskText;
-
-    const editBtn = document.createElement("onclick");
-    editBtn.textContent = "Edit";
-
-    editBtn.addEventListener("click", function() {
-        
-    });
-    li.appendChild(editBtn);
-    li.addEventListener("click", function(event) {
-        if (event.target !== editBtn) {
-            li.classList.toggle("completed");
-        }
-    });
     
-    const deleteBtn = document.createElement("onclick");
-    deleteBtn.textContent = "Delete";
+        let li = document.createElement("li");
+        li.innerHTML = `
+            <span class="task-text">${taskText}</span>
+            <span>
+                <button class="edit">Edit</button>
+                <button class="delete">Delete</button>
+            </span>
+        `;
 
-    deleteBtn.addEventListener("click", function() {
-        taskList.removeChild(li);
-    });
-    li.appendChild(deleteBtn);
-    li.addEventListener("click", function(event) {
-        if (event.target !== deleteBtn) {
-            li.classList.toggle("completed");
-        }
-    });
-    li.addEventListener("click", function() {
-        li.classList.toggle("completed");
-    });
-    taskList.appendChild(li);
+        taskList.appendChild(li);
+        taskInput.value = "";
 
-    taskInput.value = "";
-}
-function editTask(element){
-    let newTask
-}
+        attachDeleteEvent(li);
+    }
 
+    function attachDeleteEvent(taskItem) {
+        let deleteButton = taskItem.querySelector(".delete");
+        deleteButton.addEventListener("click", function () {
+            taskItem.remove();
+        });
+    }
 
+    addTaskButton.addEventListener("click", addTask);
+
+});
